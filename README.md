@@ -14,3 +14,8 @@ I downloaded the pre-trained YOLOv3 model, trained on COCO dataset.
 You can checkout the video output here - 
 
 https://youtu.be/l9krN2d7RBs
+
+
+References - 
+
+https://www.pyimagesearch.com/2018/11/12/yolo-object-detection-with-opencv/
