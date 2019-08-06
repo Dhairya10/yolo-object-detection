@@ -36,7 +36,18 @@ configPath = os.path.sep.join([args["yolo"], "yolov3.cfg"])
 # load our YOLO object detector trained on COCO dataset (80 classes)
 # and determine only the *output* layer names that we need from YOLO
 print("[INFO] loading YOLO from disk...")
+## It reads the weights and config file and creates the network
 net = cv2.dnn.readNetFromDarknet(configPath, weightsPath)
+
+## The forward function in OpenCV’s Net class needs the ending layer till which it should run in the network. 
+## Since we want to run through the whole network, we need to identify the last layer of the network. 
+## We do that by using the function getUnconnectedOutLayers()
+
+## YOLO v3 architecture uses multiple output layers. 
+## If we don’t specify the output layer names, by default, 
+## it will return the predictions only from final output layer. 
+## Any intermediate output layer will be ignored.
+
 ln = net.getLayerNames()
 ln = [ln[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
@@ -89,9 +100,9 @@ while True:
 	# pass of the YOLO object detector, giving us our bounding boxes
 	# and associated probabilities
 
-	#### blobFromImage() is used for image preprocessing.
-	#### It performs mean subtraction (taking the mean of RGB and subtracting it from each pixel), scaling etc.
-	#### Mean subtraction is used to combat illumination changes
+	## blobFromImage() is used for image preprocessing.
+	## It performs mean subtraction (taking the mean of RGB and subtracting it from each pixel), scaling etc.
+	## Mean subtraction is used to combat illumination changes
 	
 	blob = cv2.dnn.blobFromImage(frame, 1 / 255.0, (416, 416),
 		swapRB=True, crop=False)
